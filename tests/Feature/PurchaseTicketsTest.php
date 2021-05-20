@@ -2,34 +2,42 @@
 
 namespace Tests\Feature;
 
+use App\Models\Concert;
+use App\Billing\FakePaymentGateway;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 
 class PurchaseTicketsTest extends TestCase
 {
+    use RefreshDatabase;
+
     /** @test */
     public function customer_can_purchase_concert_tickets()
     {
-      $concert = Concert:factory()->create(['ticker_price'  => 3250]);
+        $paymentGateway = new FakePaymentGateway;
+        
+        $concert = Concert::factory()->create(['ticket_price'  => 3250]);
 
-      $this->json('POST', "/concerts/{$concert->id}/orders", [
+        $this->json('POST', "/concerts/{$concert->id}/orders", [
            'email'  =>  'john@example.com',
            'ticket_quantity' =>  3, 
            'payment_token' =>  $paymentGateway->getValidTestToken(), 
 
       ]);
+        
+        $this->assertStatus(201);
 
-      $this->assertEquals(9750, $paymentGateway->totalCharges());
+        $this->assertEquals(9750, $paymentGateway->totalCharges());
 
-      This->assertTrue($concert->orders->contains(function ($order) {
+        $this->assertTrue($concert->orders->contains(function ($order) {
         return $order->email == 'john@exxample.com';
       }));
 
 
-      $order = $concert->orders()->where('email', 'john@example.com')->first();
+        $order = $concert->orders()->where('email', 'john@example.com')->first();
 
-      $this->assertEquals(3, $order->tickets->count());
-      
+        $this->assertEquals(3, $order->tickets->count());
+
     }
 }
