@@ -12,8 +12,9 @@ class Concert extends Model
     protected $guarded = [];
     protected $dates = ['date'];
 
-    // public function getFormattedDateAttribute($value)
-    // {
-    //     return ;
-    // }
+
+    public function getFormattedDateAttribute()
+    {
+        return $this->date->format('F j, Y');
+    }
 }
