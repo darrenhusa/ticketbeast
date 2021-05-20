@@ -13,7 +13,7 @@ class ViewConcertListingTest extends TestCase
     use RefreshDatabase;
 
     /** @test */
-    public function user_can_view_a_concert_listing()
+    public function user_can_view_a_published_concert_listing()
     {
         $concert = Concert::create([
             'title' => 'The Red Chord',
@@ -25,21 +25,9 @@ class ViewConcertListingTest extends TestCase
             'city'  => 'Laraville',
             'state' => 'OR',
             'zip' => '17916',
-            'additional_information'    => 'For tickets, call (555) 555-5555.'
+            'additional_information'    => 'For tickets, call (555) 555-5555.',
+            'published_at'  => Carbon::parse('-1 week'),
         ]);
-
-        // $response = $this->get('/concerts/'.$concert->id);
-        
-        // $response->assertSee('The Red Chord');
-        // $response->assertSee('The Red Chord');
-        // $response->assertSee('with Animosity and Lethargy');
-        // $response->assertSee('December 13, 2016');
-        // $response->assertSee('8:00pm');
-        // $response->assertSee('32.50');
-        // $response->assertSee('The Mosh Pit');
-        // $response->assertSee('123 Example Lane');
-        // $response->assertSee('Laraville, OR 1?7916');
-        // $response->assertSee('For tickets, call (555) 555-5555.');
 
         $view = $this->view('concerts.show', ['concert' => $concert]);
 
