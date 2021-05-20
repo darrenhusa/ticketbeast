@@ -5,6 +5,7 @@ namespace Tests\Feature;
 use App\Models\Concert;
 use Carbon\Carbon;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Foundation\Testing\TestResponse;
 use Tests\TestCase;
 
 class ViewConcertListingTest extends TestCase
@@ -52,4 +53,22 @@ class ViewConcertListingTest extends TestCase
         $view->assertSee('Laraville, OR 17916');
         $view->assertSee('For tickets, call (555) 555-5555.');
     }
+
+   /** @test */
+   public function user_cannot_view_unpublished_concert_listings()
+   {
+     
+        $concert = Concert::factory()
+                ->create([
+            'published_at'  => null,
+        ]);
+
+    // dd($concert);
+
+    $response = $this->get('/concerts/'.$concert->id);
+    
+    $response->assertStatus(404);
+
+
+   }
 }
