@@ -28,6 +28,8 @@ class PurchaseTicketsTest extends TestCase
            'payment_token' =>  $paymentGateway->getValidTestToken(), 
         ]);
         
+        // dd($response);
+
         // $response->assertStatus(201);
 
         $this->assertEquals(9750, $paymentGateway->totalCharges());

@@ -33,5 +33,10 @@ class Concert extends Model
         return $query->whereNotNull('published_at');
     }
 
+    public function orders()
+    {
+
+        return $this->hasMany(Order::class);
+    }
 
 }

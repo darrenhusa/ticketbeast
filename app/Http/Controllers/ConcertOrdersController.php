@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Concert;
+use App\Billing\PaymentGateway;
 use Illuminate\Http\Request;
 
 class ConcertOrdersController extends Controller
@@ -18,9 +20,11 @@ class ConcertOrdersController extends Controller
     {
         $concert = Concert::find($concertId);
 
-        $ticketQuantity = request('ticket_qunatity');
+        $ticketQuantity = request('ticket_quantity');
         $amount = $ticketQuantity * $concert->ticket_price;
         $token = request('payment_token');
+
+        // dd($ticketQuantity, $amount);
 
         $this->paymentGateway->charge($amount, $token);
 
