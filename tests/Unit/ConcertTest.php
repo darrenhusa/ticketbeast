@@ -23,7 +23,7 @@ class ConcertTest extends TestCase
     	]);
 
 
-		dump($concert);
+		// dump($concert);
 		// dd($concert);
 
     	$date = $concert->formatted_date;
