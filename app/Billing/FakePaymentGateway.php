@@ -3,7 +3,7 @@
 namespace App\Billing;
 
 
-class FakePaymentGateway
+class FakePaymentGateway implements PaymentGateway
 {
     private $charges;
 
