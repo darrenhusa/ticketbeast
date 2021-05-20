@@ -11,7 +11,7 @@ class ConcertsController extends Controller
     {
     	// dd($concert);
 
-        $concert = Concert::published())->findOrFail($id);
+        $concert = Concert::published()->findOrFail($id);
 
     	return view('concerts.show', compact('concert'));
     }

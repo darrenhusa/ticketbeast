@@ -73,6 +73,8 @@ class ViewConcertListingTest extends TestCase
 
     $response = $this->get('/concerts/'.$concert->id);
     
+    // dd($response);
+
     $response->assertStatus(404);
 
 
