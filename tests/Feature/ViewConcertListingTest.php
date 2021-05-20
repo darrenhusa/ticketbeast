@@ -15,7 +15,7 @@ class ViewConcertListingTest extends TestCase
     /** @test */
     public function user_can_view_a_published_concert_listing()
     {
-        $concert = Concert::create([
+        $concert = Concert::factory()->published()->create([
             'title' => 'The Red Chord',
             'subtitle' => 'with Animosity and Lethargy',
             'date'  => Carbon::parse('December 13, 2016 8:00pm'),
@@ -26,8 +26,23 @@ class ViewConcertListingTest extends TestCase
             'state' => 'OR',
             'zip' => '17916',
             'additional_information'    => 'For tickets, call (555) 555-5555.',
-            'published_at'  => Carbon::parse('-1 week'),
         ]);
+
+        // dd($concert);
+
+        // $concert = Concert::create([
+        //     'title' => 'The Red Chord',
+        //     'subtitle' => 'with Animosity and Lethargy',
+        //     'date'  => Carbon::parse('December 13, 2016 8:00pm'),
+        //     'ticket_price' => 3250,
+        //     'venue' => 'The Mosh Pit',
+        //     'venue_address' => '123 Example Lane',
+        //     'city'  => 'Laraville',
+        //     'state' => 'OR',
+        //     'zip' => '17916',
+        //     'additional_information'    => 'For tickets, call (555) 555-5555.',
+        //     'published_at'  => Carbon::parse('-1 week'),
+        // ]);
 
         $view = $this->view('concerts.show', ['concert' => $concert]);
 
@@ -46,10 +61,13 @@ class ViewConcertListingTest extends TestCase
    public function user_cannot_view_unpublished_concert_listings()
    {
      
-        $concert = Concert::factory()
-                ->create([
-            'published_at'  => null,
-        ]);
+        $concert = Concert::factory()->unpublished()->create();
+
+        // $concert = Concert::factory()
+        //         ->create([
+        //     'published_at'  => null,
+        // ]);
+
 
     // dd($concert);
 
