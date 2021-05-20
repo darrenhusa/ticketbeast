@@ -4,7 +4,9 @@ namespace Tests\Unit;
 
 use App\Models\Concert;
 use Carbon\Carbon;
-use PHPUnit\Framework\TestCase;
+// use Database\Factories\ConcertFactory;
+// use PHPUnit\Framework\TestCase;
+use Tests\TestCase;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
 
@@ -20,6 +22,9 @@ class ConcertTest extends TestCase
     			'date' => Carbon::parse('2016-12-01 8:00pm'),
     	]);
 
+
+		dump($concert);
+		// dd($concert);
 
     	$date = $concert->formatted_date;
 
