@@ -128,7 +128,7 @@ class PurchaseTicketsTest extends TestCase
     {
         $concert = Concert::factory()->create();
 
-        $response = $this->json('POST', "/concerts/{$concert->id}/orders", [
+        $response = $this->orderTickets($concert, [
             'email' =>  'john@example.com', 
             'payment_token' =>  $this->paymentGateway->getValidTestToken(), 
          ]);
@@ -142,7 +142,7 @@ class PurchaseTicketsTest extends TestCase
     {
         $concert = Concert::factory()->create();
 
-        $response = $this->json('POST', "/concerts/{$concert->id}/orders", [
+        $response = $this->orderTickets($concert, [
             'email' =>  'john@example.com', 
             'ticket_quantity' => 0,
             'payment_token' =>  $this->paymentGateway->getValidTestToken(), 
@@ -157,7 +157,7 @@ class PurchaseTicketsTest extends TestCase
         {
             $concert = Concert::factory()->create();
     
-            $response = $this->json('POST', "/concerts/{$concert->id}/orders", [
+            $response = $this->orderTickets($concert, [
                 'email' =>  'john@example.com', 
                 'ticket_quantity' => 3,
              ]);
@@ -181,7 +181,6 @@ class PurchaseTicketsTest extends TestCase
 
             $order = $concert->orders()->where('email', 'john@example.com')->first();
             $this->assertNull($order);
-    
         }    
     
 }
