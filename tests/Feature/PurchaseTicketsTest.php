@@ -30,18 +30,18 @@ class PurchaseTicketsTest extends TestCase
         
         // dd($response);
 
-        // $response->assertStatus(201);
+        $response->assertStatus(201);
 
         $this->assertEquals(9750, $paymentGateway->totalCharges());
 
-        $this->assertTrue($concert->orders->contains(function ($order) {
-        return $order->email == 'john@exxample.com';
-      }));
-
-
         $order = $concert->orders()->where('email', 'john@example.com')->first();
+        $this->assertNotNull($order);
 
-        $this->assertEquals(3, $order->tickets->count());
+        // $this->assertTrue($concert->orders->contains(function ($order) {
+        //   return $order->email == 'john@exxample.com';
+        // }));
+
+        $this->assertEquals(3, $order->tickets()->count());
 
     }
 }

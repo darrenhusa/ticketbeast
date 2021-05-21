@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Unit;
+namespace Tests\Unit\Billing;
 
 use App\Billing\FakePaymentGateway;
 use PHPUnit\Framework\TestCase;
