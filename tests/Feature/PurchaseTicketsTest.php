@@ -33,7 +33,10 @@ class PurchaseTicketsTest extends TestCase
     {
 
         $response->assertStatus(422);
-
+        $this->assertTrue($response[$field]);
+        // $response->assertJson($field, $response[$field]);
+        // $response->assertJson($response[$field], $response->decodeResponseJson());
+        
         // $this->assertArrayHasKey($field, $response->decodeResponseJson());
         // dd($response->decodeResponseJson());
     }
