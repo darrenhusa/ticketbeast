@@ -165,5 +165,23 @@ class PurchaseTicketsTest extends TestCase
              $error_message = "The payment token field is required.";
             $this->assertValidationError($response, 'payment_token', $error_message);                
         }
+
+        /** @test */
+        public function an_order_is_not_created_if_payment_fails()
+        {
+            $concert = Concert::factory()->create();
+            
+            $response = $this->orderTickets($concert, [
+                'email' =>  'john@example.com', 
+                'ticket_quantity' =>  3, 
+                'payment_token' =>  'invalid-payment-token', 
+             ]);
+        
+            $response->assertStatus(422);
+
+            $order = $concert->orders()->where('email', 'john@example.com')->first();
+            $this->assertNull($order);
+    
+        }    
     
 }
