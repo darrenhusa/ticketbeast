@@ -29,11 +29,15 @@ class PurchaseTicketsTest extends TestCase
         return $this->json('POST', "/concerts/{$concert->id}/orders", $params);
     }
 
-    private function assertValidationError($response, $field)
+    private function assertValidationError($response, $field, $error_message)
     {
-
         $response->assertStatus(422);
-        $this->assertTrue($response[$field]);
+        
+        $response->assertJsonValidationErrors([
+            $field => $error_message,
+        ]);
+
+        // $this->assertTrue($response[$field]);
         // $response->assertJson($field, $response[$field]);
         // $response->assertJson($response[$field], $response->decodeResponseJson());
         
@@ -84,7 +88,24 @@ class PurchaseTicketsTest extends TestCase
             'payment_token' =>  $this->paymentGateway->getValidTestToken(), 
          ]);
         
-         $this->assertValidationError($response, 'email');
+        // dd($response->decodeResponseJson());
+        // $responseAsArray = $response->decodeResponseJson();
+        // dd($response->assertJson(['email']));
+
+        // $response->assertJsonValidationErrors([
+        //     'email' => 'The email field is required.',
+        // ]);
+
+        // dd($responseAsArray->assertJson(['email']));
+        // dd($response->assertJson($response['email']));
+        // dd($responseAsArray['email']);
+        // dd($response->assertJson($responseAsArray['email']));
+
+        //  dd($response['email']);
+        //  dd($this->assertJson('email',));
+
+        $error_message = "The email field is required.";
+        $this->assertValidationError($response, 'email', $error_message);
     }
 
     /** @test */
@@ -98,7 +119,8 @@ class PurchaseTicketsTest extends TestCase
             'payment_token' =>  $this->paymentGateway->getValidTestToken(), 
          ]);
         
-         $this->assertValidationError($response, 'email');
+        $error_message = "The email must be a valid email address.";
+        $this->assertValidationError($response, 'email', $error_message);
     }
 
     /** @test */
@@ -111,7 +133,8 @@ class PurchaseTicketsTest extends TestCase
             'payment_token' =>  $this->paymentGateway->getValidTestToken(), 
          ]);
 
-         $this->assertValidationError($response, 'ticket_quantity');        
+         $error_message = "The ticket quantity field is required.";
+         $this->assertValidationError($response, 'ticket_quantity', $error_message);     
     }
 
     /** @test */
@@ -125,7 +148,8 @@ class PurchaseTicketsTest extends TestCase
             'payment_token' =>  $this->paymentGateway->getValidTestToken(), 
          ]);
 
-         $this->assertValidationError($response, 'ticket_quantity');                
+         $error_message = "The ticket quantity must be at least 1";
+         $this->assertValidationError($response, 'ticket_quantity', $error_message);                
     }
 
         /** @test */
@@ -137,8 +161,9 @@ class PurchaseTicketsTest extends TestCase
                 'email' =>  'john@example.com', 
                 'ticket_quantity' => 3,
              ]);
-
-            $this->assertValidationError($response, 'payment_token');                
+            
+             $error_message = "The payment token field is required.";
+            $this->assertValidationError($response, 'payment_token', $error_message);                
         }
     
 }
