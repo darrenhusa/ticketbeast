@@ -29,8 +29,9 @@ class FakePaymentGatewayTest extends TestCase
         } catch (PaymentFailedException $e) {
             return;
         }
-        $this->assertTrue(true);
-
+        // $this->assertTrue(true);
+        // $this->expectNotToPerformAssertions();
+        $this->addToAssertionCount(1);
         $this->fail();
         
     }
