@@ -3,6 +3,7 @@
 namespace Tests\Unit;
 
 use App\Models\Concert;
+use App\Exceptions\NotEnoughTicketsException;
 use Carbon\Carbon;
 // use Database\Factories\ConcertFactory;
 // use PHPUnit\Framework\TestCase;
@@ -76,6 +77,7 @@ class ConcertTest extends TestCase
 	   public function can_order_concert_tickets()
 	   {
 			$concert = Concert::factory()->create();
+			$concert->addTickets(3);
 
 			$order = $concert->orderTickets('jane@example.com', 3);
 
@@ -102,5 +104,24 @@ class ConcertTest extends TestCase
 			$concert->orderTickets('jane@example.com', 30);
 
 			$this->assertEquals(20, $concert->ticketsRemaining());
+	   }
+
+	   /** @test */
+	   public function trying_to_purchase_more_tickets_than_remain_throws_an_exception()
+	   {
+			$concert = Concert::factory()->create();
+			$concert->addTickets(10);
+
+			try {
+				$concert->orderTickets('jane@example.com', 11);
+			} catch (NotEnoughTicketsException $e) {
+				$order = $concert->orders()->where('email', 'jane@example.com')->first();
+				$this->assertNull($order);
+				$this->assertEquals(10, $concert->ticketsRemaining());
+
+				return;
+			}
+
+			$this->fail("Order succeeded even though there were not enough tickets remaining.");
 	   }
 }
