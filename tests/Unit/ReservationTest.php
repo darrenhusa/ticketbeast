@@ -2,22 +2,23 @@
 
 namespace Tests\Unit;
 
-use App\Models\Concert;
+// use App\Models\Ticket;
 use App\Reservation;
 // use PHPUnit\Framework\TestCase;
 use Tests\TestCase;
-use Illuminate\Foundation\Testing\RefreshDatabase;
+// use Mockery;
 
 
 class ReservationTest extends TestCase
 {
-    use RefreshDatabase;
-
     /** @test */
     public function calculating_the_total_cost()
     {
-        $concert = Concert::factory()->create(['ticket_price' => 1200])->addTickets(3);
-        $tickets = $concert->findTickets(3);
+        $tickets = collect([
+            (object) ['price' => 1200],
+            (object) ['price' => 1200],
+            (object) ['price' => 1200],
+        ]);
 
         $reservation = new Reservation($tickets);
 
