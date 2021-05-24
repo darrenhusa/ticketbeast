@@ -3,6 +3,7 @@
 namespace Tests\Feature;
 
 use App\Models\Concert;
+use App\Reservation;
 use App\Billing\FakePaymentGateway;
 use App\Billing\PaymentGateway;
 use Illuminate\Foundation\Testing\RefreshDatabase;
