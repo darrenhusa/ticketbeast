@@ -11,6 +11,17 @@ class TicketTest extends TestCase
 {
     use RefreshDatabase;
 
+     /** @test */
+     public function a_ticket_can_be_reserved()
+     {
+        $ticket = Ticket::factory()->create();
+         
+        $ticket->reserve();
+
+        
+     }
+
+
     /** @test */
     public function a_ticket_can_be_released()
     {   
@@ -25,4 +36,5 @@ class TicketTest extends TestCase
         $this->assertNull($ticket->fresh()->order_id);
 
     }
+
 }
