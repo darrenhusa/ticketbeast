@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -17,6 +18,11 @@ class Ticket extends Model
         return $query->whereNull('order_id');
     }
     
+    public function reserve()
+    {
+        $this->update(['reserved_at' => Carbon::now()]);
+    }
+
     public function release()
     {
         $this->update(['order_id' => null]);
@@ -31,6 +37,5 @@ class Ticket extends Model
     {
         return $this->concert->ticket_price;        
     }
-    
     
 }

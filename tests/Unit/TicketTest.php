@@ -4,6 +4,8 @@ namespace Tests\Unit;
 
 // use PHPUnit\Framework\TestCase;
 use App\Models\Concert;
+use App\Models\Ticket;
+use App\Database\Factories\TicketFactory;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
@@ -15,10 +17,11 @@ class TicketTest extends TestCase
      public function a_ticket_can_be_reserved()
      {
         $ticket = Ticket::factory()->create();
+        $this->assertNull($ticket->reserved_at);
          
         $ticket->reserve();
 
-        
+        $this->assertNotNull($ticket->fresh()->reserved_at);
      }
 
 
