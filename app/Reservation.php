@@ -19,6 +19,11 @@ class Reservation
 
     }
 
+    public function tickets()
+    {
+        return $this->tickets;    
+    }
+    
     public function cancel()
     {
         foreach ($this->tickets as $ticket)
@@ -26,5 +31,5 @@ class Reservation
             $ticket->release();
         }
     }
-    
+
 }
