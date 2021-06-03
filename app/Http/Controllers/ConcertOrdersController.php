@@ -42,6 +42,8 @@ class ConcertOrdersController extends Controller
             // Create an order for those tickets
             $order = Order::forTickets($reservation->tickets(), $reservation->email(), $reservation->totalCost());
 
+            $order = $reservation->complete();
+            
             return response()->json($order, 201);
         } catch (PaymentFailedException $e) {   
             $reservation->cancel();  

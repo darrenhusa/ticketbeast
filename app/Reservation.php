@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\Models\Order;
 
 class Reservation
 {
@@ -31,6 +32,10 @@ class Reservation
         return $this->email;    
     }
 
+    public function complete()
+    {
+        return Order::forTickets($this->tickets(), $this->email(), $this->totalCost());   
+    }
     
     public function cancel()
     {
@@ -39,5 +44,7 @@ class Reservation
             $ticket->release();
         }
     }
+
+
 
 }
